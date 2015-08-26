@@ -39,37 +39,41 @@
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
     NSInteger sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     
-    //判断是否支持相机
-    if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
-    {
-        switch (buttonIndex) {
-            case 0://相册选择
-                sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-                break;
-                
-            case 1://拍照
-                sourceType = UIImagePickerControllerSourceTypeCamera;
-                break;
+    
+    if (buttonIndex!=actionSheet.cancelButtonIndex) {
+        //判断是否支持相机
+        if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
+        {
+            switch (buttonIndex) {
+                case 0://相册选择
+                    sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+                    break;
+                    
+                case 1://拍照
+                    sourceType = UIImagePickerControllerSourceTypeCamera;
+                    break;
+            }
+            
+            UIImagePickerController *imagePickerController  = [[UIImagePickerController alloc]init];
+            imagePickerController.delegate = self;
+            imagePickerController.allowsEditing = YES;
+            imagePickerController.sourceType = sourceType;
+            
+            [self presentViewController:imagePickerController animated:YES completion:nil];
+            
+        }else{
+            
+            sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+            UIImagePickerController *imagePickerController  = [[UIImagePickerController alloc]init];
+            imagePickerController.delegate = self;
+            imagePickerController.allowsEditing = YES;
+            imagePickerController.sourceType = sourceType;
+            
+            [self presentViewController:imagePickerController animated:YES completion:nil];   
+            
         }
-        
-        UIImagePickerController *imagePickerController  = [[UIImagePickerController alloc]init];
-        imagePickerController.delegate = self;
-        imagePickerController.allowsEditing = YES;
-        imagePickerController.sourceType = sourceType;
-        
-        [self presentViewController:imagePickerController animated:YES completion:nil];
-    
-    }else{
-    
-        sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        UIImagePickerController *imagePickerController  = [[UIImagePickerController alloc]init];
-        imagePickerController.delegate = self;
-        imagePickerController.allowsEditing = YES;
-        imagePickerController.sourceType = sourceType;
-        
-        [self presentViewController:imagePickerController animated:YES completion:nil];   
-        
     }
+    
 }
 
 #pragma mark -添加照片空间的代理方芳
